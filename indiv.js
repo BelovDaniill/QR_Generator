@@ -5,8 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const qrText = document.getElementById('qr-text');
     const historyList = document.getElementById('history-list');
 
+    // Загружаем историю из LocalStorage
     renderHistory();
 
+    // Функция проверки контраста и инверсии
     function checkContrast() {
         const dark = document.getElementById('color-dark').value;
         const light = document.getElementById('color-light').value;
@@ -28,28 +30,29 @@ document.addEventListener('DOMContentLoaded', () => {
             warning.style.display = 'block';
             warning.style.background = 'rgba(239, 68, 68, 0.2)';
             warning.style.color = '#fca5a5';
-            warning.innerText = 'Низкий контраст: код может не считаться!';
+            warning.innerText = '⚠️ Низкий контраст: код может не считаться!';
         } else if (lumDark > lumLight) {
             warning.style.display = 'block';
             warning.style.background = 'rgba(245, 158, 11, 0.2)';
             warning.style.color = '#fcd34d';
-            warning.innerText = 'Инверсия: некоторые сканеры плохо читают светлый код';
+            warning.innerText = 'ℹ️ Инверсия: некоторые сканеры плохо читают светлый код на темном фоне';
         } else {
             warning.style.display = 'none';
         }
     }
 
+    // Основная функция генерации
     function generateQR() {
         const text = qrText.value.trim();
         const darkColor = document.getElementById('color-dark').value;
         const lightColor = document.getElementById('color-light').value;
         const container = document.getElementById('qr-container');
 
-        if (!text) return alert("Введите текст");
+        if (!text) return; // Не алертим при загрузке, если пусто
 
         try {
             const qr = qrcode(0, 'M');
-            // unescape + encodeURIComponent исправляют поддержку русского языка
+            // unescape + encodeURIComponent для поддержки русского языка
             qr.addData(unescape(encodeURIComponent(text)));
             qr.make();
 
@@ -79,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Скачивание PNG
     async function downloadImage() {
         const container = document.getElementById('qr-container');
         const canvas = await html2canvas(container);
@@ -88,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.click();
     }
 
+    // Работа с историей
     function addToHistory(text) {
         let history = JSON.parse(localStorage.getItem('qr_history') || '[]');
         if (!history.includes(text)) {
@@ -109,8 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Слушатели событий
     generateBtn.addEventListener('click', generateQR);
     downloadBtn.addEventListener('click', downloadImage);
+    
     clearHistoryBtn.addEventListener('click', () => {
         localStorage.removeItem('qr_history');
         renderHistory();
@@ -119,4 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
     qrText.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') generateQR();
     });
+
+    // --- ЛОГИКА ПО УМОЛЧАНИЮ ---
+    if (!qrText.value) {
+        qrText.value = "https://belovdaniill.github.io/INDIV_JS/"; 
+    }
+    generateQR(); // Генерируем код сразу при открытии страницы
 });
