@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- ЛОГИКА ПО УМОЛЧАНИЮ ---
     if (!qrText.value) {
-        qrText.value = "https://belovdaniill.github.io/INDIV_JS/"; 
+        qrText.value = "https://belovdaniill.github.io/QR_Generator/"; 
     }
     generateQR(); // Генерируем код сразу при открытии страницы
 });
