@@ -30,12 +30,12 @@ document.addEventListener('DOMContentLoaded', () => {
             warning.style.display = 'block';
             warning.style.background = 'rgba(239, 68, 68, 0.2)';
             warning.style.color = '#fca5a5';
-            warning.innerText = '⚠️ Низкий контраст: код может не считаться!';
+            warning.innerText = 'Низкий контраст: код может не считаться!';
         } else if (lumDark > lumLight) {
             warning.style.display = 'block';
             warning.style.background = 'rgba(245, 158, 11, 0.2)';
             warning.style.color = '#fcd34d';
-            warning.innerText = 'ℹ️ Инверсия: некоторые сканеры плохо читают светлый код на темном фоне';
+            warning.innerText = 'Инверсия: некоторые сканеры плохо читают светлый код на темном фоне';
         } else {
             warning.style.display = 'none';
         }
