@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const generateBtn = document.getElementById('generate-btn');
-    const downloadBtn = document.getElementById('download-btn');
-    const clearHistoryBtn = document.getElementById('clear-history');
+    const generate = document.getElementById('generate');
+    const download = document.getElementById('download');
+    const clearHistory = document.getElementById('clear-history');
     const qrText = document.getElementById('qr-text');
     const historyList = document.getElementById('history-list');
 
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const r = (rgb >> 16) & 0xff;
             const g = (rgb >> 8) & 0xff;
             const b = (rgb >> 0) & 0xff;
-            return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+            return 0.2 * r + 0.7 * g + 0.07 * b;
         };
 
         const lumDark = getLuminance(dark);
@@ -28,12 +28,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (diff < 100) {
             warning.style.display = 'block';
-            warning.style.background = 'rgba(239, 68, 68, 0.2)';
+            warning.style.background = 'rgba(245, 68, 68, 0.2)';
             warning.style.color = '#fca5a5';
             warning.innerText = 'Низкий контраст: код может не считаться!';
         } else if (lumDark > lumLight) {
             warning.style.display = 'block';
-            warning.style.background = 'rgba(245, 158, 11, 0.2)';
+            warning.style.background = 'rgba(245, 68, 68, 0.2)';
             warning.style.color = '#fcd34d';
             warning.innerText = 'Инверсия: некоторые сканеры плохо читают светлый код на темном фоне';
         } else {
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const lightColor = document.getElementById('color-light').value;
         const container = document.getElementById('qr-container');
 
-        if (!text) return; // Не алертим при загрузке, если пусто
+        if (!text) return;
 
         try {
             const qr = qrcode(0, 'M');
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             container.innerHTML = '';
             container.appendChild(table);
-            downloadBtn.style.display = 'block';
+            download.style.display = 'block';
 
             addToHistory(text);
             checkContrast();
@@ -115,10 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Слушатели событий
-    generateBtn.addEventListener('click', generateQR);
-    downloadBtn.addEventListener('click', downloadImage);
+    generate.addEventListener('click', generateQR);
+    download.addEventListener('click', downloadImage);
     
-    clearHistoryBtn.addEventListener('click', () => {
+    clearHistory.addEventListener('click', () => {
         localStorage.removeItem('qr_history');
         renderHistory();
     });
