@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Enter') generateQR();
     });
 
-    // --- ЛОГИКА ПО УМОЛЧАНИЮ ---
+    // --- ЛОГИКА ПО УМОЛЧАНИЮ
     if (!qrText.value) {
         qrText.value = "https://belovdaniill.github.io/QR_Generator/"; 
     }
