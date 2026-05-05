@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    
     // Скачивание PNG
     async function downloadImage() {
         const container = document.getElementById('qr-container');
